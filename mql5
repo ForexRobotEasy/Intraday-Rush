@@ -1,0 +1,141 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                              Intraday Rush EA   |
+//|                                        Developer: Forex Robot Easy Team |
+//|                                          Website: forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+// Include required libraries and modules
+#include <Trade\Trade.mqh>
+#include <Indicators\RSI\RSI.mqh>
+
+// Define symbol constants
+const string AUDUSD = 'AUDUSD';
+const string EURUSD = 'EURUSD';
+const string GBPUSD = 'GBPUSD';
+const string USDCAD = 'USDCAD';
+const string USDCHF = 'USDCHF';
+const string USDJPY = 'USDJPY';
+
+// Define trading parameters
+input int RSI_PERIOD = 14; // RSI period
+input double RSI_OVERBOUGHT = 70; // RSI overbought level
+input double RSI_OVERSOLD = 30; // RSI oversold level
+
+// Create instances of the RSI indicator and trade class
+CRSI rsi;
+CTrade trade;
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Set RSI parameters
+    rsi.Setup(RSI_PERIOD, RSI_OVERBOUGHT, RSI_OVERSOLD);
+
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   // Clean up any open trades
+   trade.CloseAll();
+}
+
+//+------------------------------------------------------------------+
+//| Expert start function                                            |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   // Check RSI values for each symbol and make trading decisions
+   double rsiAUDUSD = rsi.iRSI(AUDUSD, PERIOD_CURRENT);
+   double rsiEURUSD = rsi.iRSI(EURUSD, PERIOD_CURRENT);
+   double rsiGBPUSD = rsi.iRSI(GBPUSD, PERIOD_CURRENT);
+   double rsiUSDCAD = rsi.iRSI(USDCAD, PERIOD_CURRENT);
+   double rsiUSDCHF = rsi.iRSI(USDCHF, PERIOD_CURRENT);
+   double rsiUSDJPY = rsi.iRSI(USDJPY, PERIOD_CURRENT);
+
+   // Open trades based on RSI values
+   if (rsiAUDUSD > RSI_OVERBOUGHT)
+   {
+       trade.Buy(AUDUSD, 0.01, 0, 0, 0);
+   }
+   else if (rsiAUDUSD < RSI_OVERSOLD)
+   {
+       trade.Sell(AUDUSD, 0.01, 0, 0, 0);
+   }
+
+   if (rsiEURUSD > RSI_OVERBOUGHT)
+   {
+       trade.Buy(EURUSD, 0.01, 0, 0, 0);
+   }
+   else if (rsiEURUSD < RSI_OVERSOLD)
+   {
+       trade.Sell(EURUSD, 0.01, 0, 0, 0);
+   }
+
+   if (rsiGBPUSD > RSI_OVERBOUGHT)
+   {
+       trade.Buy(GBPUSD, 0.01, 0, 0, 0);
+   }
+   else if (rsiGBPUSD < RSI_OVERSOLD)
+   {
+       trade.Sell(GBPUSD, 0.01, 0, 0, 0);
+   }
+
+   if (rsiUSDCAD > RSI_OVERBOUGHT)
+   {
+       trade.Buy(USDCAD, 0.01, 0, 0, 0);
+   }
+   else if (rsiUSDCAD < RSI_OVERSOLD)
+   {
+       trade.Sell(USDCAD, 0.01, 0, 0, 0);
+   }
+
+   if (rsiUSDCHF > RSI_OVERBOUGHT)
+   {
+       trade.Buy(USDCHF, 0.01, 0, 0, 0);
+   }
+   else if (rsiUSDCHF < RSI_OVERSOLD)
+   {
+       trade.Sell(USDCHF, 0.01, 0, 0, 0);
+   }
+
+   if (rsiUSDJPY > RSI_OVERBOUGHT)
+   {
+       trade.Buy(USDJPY, 0.01, 0, 0, 0);
+   }
+   else if (rsiUSDJPY < RSI_OVERSOLD)
+   {
+       trade.Sell(USDJPY, 0.01, 0, 0, 0);
+   }
+}
+
+//+------------------------------------------------------------------+
+//| Expert custom function to handle errors and exceptions           |
+//+------------------------------------------------------------------+
+void OnTradeError(const string& message)
+{
+    Print('Trade Error: ', message);
+}
+
+//+------------------------------------------------------------------+
+//| Expert custom function to handle trade events                     |
+//+------------------------------------------------------------------+
+void OnTrade()
+{
+    // Handle trade events
+}
+
+//+------------------------------------------------------------------+
+//| Expert custom function to handle chart events                     |
+//+------------------------------------------------------------------+
+void OnChartEvent(const int id, const long& lparam, const double& dparam, const string& sparam)
+{
+    // Handle chart events
+}
+
